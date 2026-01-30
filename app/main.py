@@ -21,7 +21,7 @@ import shutil
 from pathlib import Path
 import uuid
 
-
+LIMIT_FILE_SIZE = 500000
 
 name_file = str(uuid.uuid4())
 # Create upload directory
@@ -32,10 +32,15 @@ app = FastAPI(title="FastAPI File Upload Service")
 
 @app.post("/upload/single")
 async def upload_single_file(file: UploadFile = File(...)):
-    """Upload a single file with basic validation"""
+    ## Errors Handling
     if file.filename == "":
-        raise HTTPException(status_code=400, detail="No file selected")
+        raise HTTPException(status_code=412, detail="No file selected")
 
+    if file.size > LIMIT_FILE_SIZE:
+        raise HTTPException(status_code=413, detail="Payload Too Large")
+    
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=415, detail="Unsupported Media Type")
 
     file_ext = Path(file.filename).suffix
     unique_filename = f"{uuid.uuid4()}{file_ext}"
