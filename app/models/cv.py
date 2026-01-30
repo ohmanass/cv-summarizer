@@ -1,10 +1,12 @@
 from app.db.session import Base
 from sqlalchemy import Column, Integer, String
 
-class Car(Base):    
+class Cv(Base):    
     __tablename__ = "cvs"
     
     id = Column(Integer, primary_key=True, index=True)
-    file_name = Column(String, nullable=False)
-    file_path = Column(String, nullable=False)
-    file_size = Column(Integer, nullable=False)
+    filename = Column(String, nullable=False)
+    location = Column(String, nullable=False)
+    contenttype = Column(String,nullable=False)
+    size = Column(Integer, nullable=False)
+    desc = Column(String, nullable=True)

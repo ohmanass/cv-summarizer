@@ -1,11 +1,15 @@
 from pydantic import BaseModel
 
 class CvBase(BaseModel):
-    file_name: str
-    file_size: int
-    file_path: str
+    filename: str
+    location: str
+    contenttype: str
+    size: int
+    
+class CvCreate(CvBase):
+    pass
 
-class Cv(BaseModel):
+class Cv(CvBase):
     id: int
 
     class Config:
